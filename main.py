@@ -3,6 +3,7 @@ from src.preprocess_data import preprocess_data
 from src.train import train_model
 from src.evaluate import evaluate_model
 from sklearn.model_selection import train_test_split
+import pandas as pd
 
 def main():
     """
@@ -10,10 +11,11 @@ def main():
     entrenamiento del modelo y evaluación de su desempeño.
     """
     print("=== INICIO DEL PROCESO ===")
+    data = pd.read_csv(DATASET_PATH)
 
     #1. Preprocesar los datos
     print("Preprocesando los datos...")
-    features, labels = preprocess_data()
+    features, labels = preprocess_data(data)
 
     #2. Dividir los datos en conjuntos de entrenamiento y prueba
     print("Dividiendo los datos en entrenamiento y prueba...")
@@ -25,12 +27,10 @@ def main():
     print(f"Modelo guardado en: {MODEL_PATH}")
 
     #4. Evaluar el modelo
-    print("Evaluando el modelo...")
-    precision, recall = evaluate_model(MODEL_PATH, X_test, y_test)
-    print(f"Precisión: {precision:.2f}")
-    print(f"Recall: {recall:.2f}")
-    print("=== PROCESO COMPLETADO ===")
+    precision, recall = evaluate_model(MODEL_PATH, X_test, y_test, threshold=0.5)
 
+    print(f"Precisión del modelo: {precision:.2f}")
+    print(f"Recall del modelo: {recall:.2f}")
 
 if __name__ == "__main__":
     main()

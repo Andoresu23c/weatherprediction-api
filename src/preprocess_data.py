@@ -1,49 +1,42 @@
 import pickle
-from typing import BinaryIO
-
 import pandas as pd
-from sklearn.preprocessing import MinMaxScaler
-from config import DATASET_PATH
+import numpy as np
+from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
 
-
-def load_data():
+def preprocess_data(data):
     """
-    Carga el archivo CSV desde la ruta especificada en config.py.
+    Preprocesa los datos, codifica países y fechas, y genera las etiquetas.
     """
-    data = pd.read_csv(DATASET_PATH, sep=",")
-    return data
-
-def preprocess_data():
-    """
-    Carga, filtra por la ciudad de Quito y el rango de años 2023-2024,
-    limpia y normaliza los datos.
-    """
-    # Cargar los datos
-    data = load_data()
-
-    # Convertir la columna 'date' a formato datetime
-    data['date'] = pd.to_datetime(data['date'])
-
-    # Filtrar por país y rango de años
-    data = data[(data['country'] == 'Ecuador') & (data['date'].dt.year.isin([2023, 2024]))]
-
-    # Verificar si los datos están vacíos
-    if data.empty:
-        raise ValueError("No hay datos disponibles para Ecuador en el rango de años 2023-2024.")
-
-    # Eliminar valores nulos
-    data = data.dropna()
-
-    # Seleccionar características y etiquetas
+    # Características numéricas
     features = data[['temperature_2m_max', 'temperature_2m_min', 'temperature_2m_mean',
-                     'precipitation_sum', 'wind_speed_10m_max']]
-    labels = data['precipitation_sum'] > 0  # Etiqueta binaria: 1 si hubo precipitación, 0 si no.
+                     'precipitation_sum', 'wind_speed_10m_max']].values
 
-    # Normalizar las características
+    # Etiquetas: 1 si hay precipitación, 0 si no hay
+    labels = (data['precipitation_sum'] > 0).astype(int)
+
+    # Normalizar características numéricas
     scaler = MinMaxScaler()
     features_normalized = scaler.fit_transform(features)
-    # Guardar el escalador para su reutilización en predicciones
+
+    # Codificar países (OneHotEncoder)
+    encoder = OneHotEncoder(sparse_output=False)
+    countries_encoded = encoder.fit_transform(data[['country']])
+
+    # Extraer mes y día de la columna 'date'
+    data['month'] = pd.to_datetime(data['date']).dt.month
+    data['day'] = pd.to_datetime(data['date']).dt.day
+
+    # Crear las características de fecha
+    date_features = data[['month', 'day']].values
+
+    # Concatenar todas las características (numéricas + países + fecha)
+    features_final = np.hstack([features_normalized, countries_encoded, date_features])
+
+    # Guardar el escalador y el codificador
     with open("models/scaler.pkl", "wb") as f:
-        f: BinaryIO
         pickle.dump(scaler, f)
-    return features_normalized, labels
+
+    with open("models/encoder.pkl", "wb") as f:
+        pickle.dump(encoder, f)
+
+    return features_final, labels

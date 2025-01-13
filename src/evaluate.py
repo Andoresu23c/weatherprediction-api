@@ -1,14 +1,20 @@
 from sklearn.metrics import precision_score, recall_score
 from tensorflow.keras.models import load_model
 
-def evaluate_model(model_path, X_test, y_test):
-    """
-    Carga el modelo, realiza predicciones y evalúa precisión y recall.
-    """
-    model = load_model(model_path)
-    y_pred = (model.predict(X_test) > 0.5).astype("int32")
+def evaluate_model(model_path, X_test, y_test, threshold=0.5):
+    try:
+        print("Cargando el modelo...")
+        model = load_model(model_path)
 
-    precision = precision_score(y_test, y_pred)
-    recall = recall_score(y_test, y_pred)
+        print("Realizando predicciones...")
+        y_pred_prob = model.predict(X_test)
+        y_pred = (y_pred_prob > threshold).astype("int32")
 
-    return precision, recall
+        print("Calculando métricas...")
+        precision = precision_score(y_test, y_pred)
+        recall = recall_score(y_test, y_pred)
+        return precision, recall
+
+    except Exception as e:
+        print(f"Error durante la evaluación: {e}")
+        return None, None
