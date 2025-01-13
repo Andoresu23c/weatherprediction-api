@@ -1,0 +1,7 @@
+#Directorio de requerimientos para instalarlo con un solo comando
+pandas
+numpy
+tensorflow
+scikit-learn
+matplotlib
+keras
