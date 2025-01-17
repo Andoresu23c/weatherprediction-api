@@ -28,9 +28,8 @@ def main():
 
     #4. Evaluar el modelo
     precision, recall = evaluate_model(MODEL_PATH, X_test, y_test, threshold=0.5)
-
     print(f"Precisión del modelo: {precision:.2f}")
-    print(f"Recall del modelo: {recall:.2f}")
+    print(f"Recall del modelo: {recall:.2f}") #Taza de verdaderos positivos
 
 if __name__ == "__main__":
     main()

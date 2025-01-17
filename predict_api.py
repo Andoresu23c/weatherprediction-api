@@ -6,7 +6,7 @@ from datetime import datetime
 
 app = Flask(__name__)
 
-# Ruta al modelo, escalador y codificador guardados
+#Ruta al modelo, escalador y codificador guardados
 model_path = "models/clima_model.h5"
 scaler_path = "models/scaler.pkl"
 encoder_path = "models/encoder.pkl"

@@ -1,5 +1,6 @@
 from sklearn.metrics import precision_score, recall_score
 from tensorflow.keras.models import load_model
+from src.graphics import plot_evaluation_metrics
 
 def evaluate_model(model_path, X_test, y_test, threshold=0.5):
     try:
@@ -13,6 +14,10 @@ def evaluate_model(model_path, X_test, y_test, threshold=0.5):
         print("Calculando métricas...")
         precision = precision_score(y_test, y_pred)
         recall = recall_score(y_test, y_pred)
+
+        # Graficar precisión y recall
+        plot_evaluation_metrics(precision, recall, output_path='images/evaluation_metrics.png')
+
         return precision, recall
 
     except Exception as e:

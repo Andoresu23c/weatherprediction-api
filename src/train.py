@@ -5,6 +5,7 @@ from tensorflow.keras.layers import Dense, Dropout
 from tensorflow.keras.regularizers import l2
 from keras.optimizers import Adam
 from tensorflow.keras.metrics import Recall, Precision
+from src.graphics import plot_training_performance
 
 def create_model(input_dim):
     """
@@ -45,12 +46,12 @@ def train_model(features, labels, model_path, scaler_path):
     # - Las clases desbalanceadas se pueden manejar mediante pesos ajustados.
     # - Para las clases minoritarias (lluvia), asignamos un peso mayor para forzar al modelo a prestarle más atención.
     # - En este caso, le damos más peso a la clase positiva (1, lluvia).
-    class_weight = {0: 1, 1: 1.2}  # Peso de 1.2 a la clase 1 (lluvia), 1 a la clase 0 (no lluvia)
+    # class_weight = {0: 1, 1: 1.2}  #Peso de 1.2 a la clase 1 (lluvia), 1 a la clase 0 (no lluvia)
     # El modelo le da más importancia a los casos de lluvia, tratando de reducir los falsos negativos.
 
     class_weight={0: 2, 1: 1} # Ajusta según el balance de clases
 
-    model.fit(
+    training = model.fit(
         features,
         labels,
         epochs=15,  # Máximo 15 épocas
@@ -62,3 +63,6 @@ def train_model(features, labels, model_path, scaler_path):
 
     # Guardar el modelo entrenado
     model.save(model_path)
+
+    # Graficar el rendimiento del entrenamiento
+    plot_training_performance(training, output_path='images/training_performance.png')

@@ -1,0 +1,54 @@
+# Excluir archivos de modelo, gráficos y otros
+*.h5
+*.pkl
+*.png
+
+# Archivos y carpetas comunes de Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.sqlite3
+
+# Entornos virtuales
+env/
+.venv/
+venv/
+
+# Archivos de configuración del entorno
+.env
+.env.*
+
+# Archivos de registro
+*.log
+
+# Configuración específica del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de caché y compilación
+*.egg
+*.egg-info/
+dist/
+build/
+*.so
+
+# Configuración de IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Archivos creados por Jupyter Notebook
+.ipynb_checkpoints/
+
+# Archivos comprimidos y backups
+*.gz
+*.zip
+*.tar
+*.rar
+*.7z
+*.bak
+
+# Visualizaciones generadas
+images/
