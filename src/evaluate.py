@@ -16,7 +16,7 @@ def evaluate_model(model_path, X_test, y_test, threshold=0.5):
         recall = recall_score(y_test, y_pred)
 
         # Graficar precisión y recall
-        plot_evaluation_metrics(precision, recall, output_path='images/evaluation_metrics.png')
+        plot_evaluation_metrics(precision, recall, output_path='image/evaluation_metrics.png')
 
         return precision, recall
 

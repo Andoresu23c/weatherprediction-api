@@ -65,4 +65,4 @@ def train_model(features, labels, model_path, scaler_path):
     model.save(model_path)
 
     # Graficar el rendimiento del entrenamiento
-    plot_training_performance(training, output_path='images/training_performance.png')
+    plot_training_performance(training, output_path='image/training_performance.png')
