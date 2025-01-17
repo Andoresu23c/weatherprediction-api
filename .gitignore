@@ -50,5 +50,3 @@ build/
 *.7z
 *.bak
 
-# Visualizaciones generadas
-images/
