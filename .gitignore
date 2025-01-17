@@ -1,7 +1,7 @@
 # Excluir archivos de modelo, gráficos y otros
 *.h5
 *.pkl
-*.png
+
 
 # Archivos y carpetas comunes de Python
 *.pyc
