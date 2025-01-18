@@ -1,4 +1,4 @@
-# Weather Prediction Project
+# Weather Prediction API - LATAM dataset
 
 Este proyecto utiliza un modelo de red neuronal para predecir si lloverá, basado en datos meteorológicos como temperaturas, precipitación y velocidad del viento. A continuación, se describe cómo inicializar el proyecto, entrenar el modelo, y ejecutar el API.
 
